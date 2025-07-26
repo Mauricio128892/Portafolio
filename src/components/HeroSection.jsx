@@ -68,7 +68,7 @@ const HeroSection = () => {
       id="inicio"
       className="relative h-screen w-full flex items-center justify-center
                  bg-cover bg-center bg-no-repeat overflow-hidden"
-      style={{ backgroundImage: `url('/images/cielo.gif')` }}
+      style={{ backgroundImage: `url('/images/cielo2.gif')` }}
     >
       
       <div className="absolute left-[20%] -translate-x-1/2 top-1/2 -translate-y-1/2 // 
