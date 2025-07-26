@@ -1,0 +1,95 @@
+
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+
+
+
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'adventure', sans-serif;
+  background-color: var(--tw-colors-sea-blue);
+  color: var(--tw-colors-cloud-white);
+}
+
+
+.bg-wood-separator {
+  background-image: url('/images/madera.png'); 
+  background-repeat: repeat-x; 
+  background-size: auto 100%; 
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-float-up {
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+@keyframes floatWater {
+  0% {
+    transform: translate(-50%, -50%) rotate(-1deg);
+  }
+  25% {
+    transform: translate(-50%, calc(-50% - 5px)) rotate(1deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-50%, calc(-50% + 5px)) rotate(-2deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-1deg);
+  }
+}
+
+.animate-float-water {
+  animation: floatWater 6s ease-in-out infinite;
+}
+
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-out-left {
+  animation: slideOutLeft 0.8s ease-in forwards;
+}
+
+@keyframes slideInRightFadeIn {
+  0% {
+    transform: translateX(150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right-fade-in {
+  animation: slideInRightFadeIn 1s ease-out forwards;
+}
