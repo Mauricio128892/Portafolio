@@ -1,4 +1,3 @@
-// src/components/AboutMe.jsx
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 const AboutMe = () => {
@@ -77,14 +76,6 @@ const AboutMe = () => {
   return (
     <> {/* Fragmento para envolver múltiples elementos de nivel superior */}
       {/* Contenedor principal de la sección "Sobre Mí". */}
-      {/* py-20: Padding vertical para espacio arriba y abajo. */}
-      {/* px-4 md:px-8 lg:px-16: Padding horizontal responsivo. */}
-      {/* bg-[url('/images/fondo2.png')]: Establece la imagen de fondo. */}
-      {/* bg-cover: Asegura que la imagen cubra todo el elemento. */}
-      {/* bg-no-repeat: Evita que la imagen se repita. */}
-      {/* bg-center: Centra la imagen de fondo. */}
-      {/* relative z-10: Asegura que esté por encima del fondo de ondas generales de App.jsx */}
-      {/* overflow-hidden: Evita que el contenido sobresalga. */}
       <section
         id="sobre-mi"
         ref={sectionRef} // Asignamos la referencia a la sección
@@ -128,58 +119,45 @@ const AboutMe = () => {
             </div>
           </div>
 
-          {/* Contenedor para el GIF de Gear 5 */}
-          {/* w-full lg:w-1/2: Ocupa todo el ancho en móvil, la mitad en pantallas grandes. */}
-          {/* flex justify-center items-center: Centra el GIF horizontal y verticalmente dentro de su contenedor. */}
-          {/* lg:pl-8: Padding a la izquierda para separar del texto en pantallas grandes. */}
-          <div className="w-full lg:w-1/2 flex justify-center items-center lg:pl-8">
+          {/* Contenedor para el GIF de Gear 5 y los suelos */}
+          {/* Este div actuará como el padre relativo para Luffy y las imágenes del suelo */}
+          <div className="w-full lg:w-1/2 relative h-[40vh] md:h-[50vh] lg:h-[60vh] flex justify-center items-end overflow-hidden">
             <img
               src="/images/gear5.gif"
               alt="Gear 5 GIF"
-              className={`w-full max-w-lg md:max-w-xl lg:max-w-full cursor-pointer ${luffyPowerAnimation}`} // Animación de poder de Luffy
-              style={{ transform: 'translateY(-106px) translateX(250px)' }} // Ajusta este valor para mover el GIF
-              onClick={handleLuffyClick} // Manejador de clic para Luffy
+              // Posicionamiento absoluto dentro de este contenedor, centrado horizontalmente
+              className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-auto h-[30vh] md:h-[40vh] lg:h-[50vh] cursor-pointer object-contain ${luffyPowerAnimation} z-10`} // Luffy on top of the ground
+              onClick={handleLuffyClick}
+            />
+
+            {/* Imágenes del suelo (posicionadas dentro de este mismo contenedor) */}
+            {/* Usan ancho completo del padre y altura en vh para responsividad */}
+            <img
+              src="/images/suelo.png"
+              alt="Suelo 1"
+              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
+              style={{ bottom: '0vh' }}
+            />
+            <img
+              src="/images/suelo.png"
+              alt="Suelo 2"
+              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
+              style={{ bottom: '7vh' }} /* Ajustado para superponerse ligeramente */
+            />
+            <img
+              src="/images/suelo.png"
+              alt="Suelo 3"
+              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
+              style={{ bottom: '14vh' }} /* Ajustado para superponerse ligeramente */
+            />
+            <img
+              src="/images/suelo.png"
+              alt="Suelo 4"
+              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
+              style={{ bottom: '21vh' }} /* Ajustado para superponerse ligeramente */
             />
           </div>
         </div>
-
-        {/* Imágenes del suelo (posicionadas directamente en la sección) */}
-        {/* Cada imagen tiene un 'bottom' diferente para apilarse verticalmente. */}
-        {/* 'left-1/2 -translate-x-1/2' las centra horizontalmente. */}
-        {/* 'w-[WIDTHpx]' y 'h-[HEIGHTpx]' controlan el tamaño. */}
-        {/* 'transform: translateX(Xpx)' permite mover el suelo horizontalmente sin afectar el apilamiento. */}
-
-        {/* Imagen del suelo 1 */}
-        <img
-          src="/images/suelo.png"
-          alt="Suelo 1"
-          className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[100px] object-cover"
-          style={{ bottom: '0px', transform: 'translateX(270px)' }} /* Movido a la derecha para estar bajo Luffy */
-        />
-
-        {/* Imagen del suelo 2 */}
-        <img
-          src="/images/suelo.png"
-          alt="Suelo 2"
-          className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[100px] object-cover"
-          style={{ bottom: '100px', transform: 'translateX(270px)' }} /* Movido a la derecha para estar bajo Luffy */
-        />
-
-        {/* Imagen del suelo 3 */}
-        <img
-          src="/images/suelo.png"
-          alt="Suelo 3"
-          className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[100px] object-cover"
-          style={{ bottom: '200px', transform: 'translateX(270px)' }} /* Movido a la derecha para estar bajo Luffy */
-        />
-
-        {/* Imagen del suelo 4 */}
-        <img
-          src="/images/suelo.png"
-          alt="Suelo 4"
-          className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[100px] object-cover"
-          style={{ bottom: '300px', transform: 'translateX(270px)' }} /* Movido a la derecha para estar bajo Luffy */
-        />
 
         {/* Renderizado de los rayos de Haki */}
         {hakiRays.map(ray => (
@@ -222,35 +200,35 @@ const AboutMe = () => {
 
         /* Animación de poder para Luffy */
         @keyframes luffy-power-release {
-          0% { transform: translateY(-56px) translateX(250px) scale(1); filter: brightness(1); }
-          5% { transform: translateY(-56px) translateX(250px) scale(1.1) rotate(5deg); filter: brightness(1.5) drop-shadow(0 0 15px yellow) drop-shadow(0 0 25px orange); }
-          95% { transform: translateY(-56px) translateX(250px) scale(1.1) rotate(-5deg); filter: brightness(1.5) drop-shadow(0 0 15px yellow) drop-shadow(0 0 25px orange); }
-          100% { transform: translateY(-56px) translateX(250px) scale(1); filter: brightness(1); }
+          0% { transform: translateY(0) scale(1); filter: brightness(1); } /* Adjusted for new positioning */
+          5% { transform: translateY(0) scale(1.1) rotate(5deg); filter: brightness(1.5) drop-shadow(0 0 15px yellow) drop-shadow(0 0 25px orange); }
+          95% { transform: translateY(0) scale(1.1) rotate(-5deg); filter: brightness(1.5) drop-shadow(0 0 15px yellow) drop-shadow(0 0 25px orange); }
+          100% { transform: translateY(0) scale(1); filter: brightness(1); }
         }
         .animate-luffy-power-release {
-          animation: luffy-power-release 6s ease-in-out forwards; /* Dura 6 segundos */
+          animation: luffy-power-release 6s ease-in-out forwards; /* Lasts 6 seconds */
         }
 
         /* Animación de temblor para la sección */
         @keyframes section-tremble {
           0% { transform: translate(0, 0); }
-          10% { transform: translate(-3px, -3px); } /* Aumentado el temblor */
-          20% { transform: translate(3px, 3px); } /* Aumentado el temblor */
-          30% { transform: translate(-3px, 3px); } /* Aumentado el temblor */
-          40% { transform: translate(3px, -3px); } /* Aumentado el temblor */
-          50% { transform: translate(-3px, -3px); } /* Aumentado el temblor */
-          60% { transform: translate(3px, 3px); } /* Aumentado el temblor */
-          70% { transform: translate(-3px, 3px); } /* Aumentado el temblor */
-          80% { transform: translate(3px, -3px); } /* Aumentado el temblor */
-          90% { transform: translate(-3px, -3px); } /* Aumentado el temblor */
+          10% { transform: translate(-3px, -3px); } /* Increased tremble */
+          20% { transform: translate(3px, 3px); } /* Increased tremble */
+          30% { transform: translate(-3px, 3px); } /* Increased tremble */
+          40% { transform: translate(3px, -3px); } /* Increased tremble */
+          50% { transform: translate(-3px, -3px); } /* Increased tremble */
+          60% { transform: translate(3px, 3px); } /* Increased tremble */
+          70% { transform: translate(-3px, 3px); } /* Increased tremble */
+          80% { transform: translate(3px, -3px); } /* Increased tremble */
+          90% { transform: translate(-3px, -3px); } /* Increased tremble */
           100% { transform: translate(0, 0); }
         }
         .animate-section-tremble {
-          animation: section-tremble 0.1s infinite; /* Animación rápida e infinita durante los 6 segundos */
+          animation: section-tremble 0.1s infinite; /* Fast and infinite animation during the 6 seconds */
         }
         `}
       </style>
-    </> // Cierre del Fragmento
+    </> {/* Close Fragment */}
   );
 };
 
