@@ -1,4 +1,3 @@
-// src/components/HeroSection.jsx
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 const HeroSection = () => {
@@ -94,25 +93,39 @@ const HeroSection = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-[950px] w-full
+      className="relative min-h-screen w-full flex flex-col items-center justify-center
                  bg-cover bg-center bg-no-repeat overflow-hidden"
       style={{ backgroundImage: `url('/images/cielo2.gif')` }}
     >
-      <div className="relative w-full h-[950px]">
-        <div className="absolute top-[10%] left-[10%] flex flex-col items-center">
+      {/* Contenedor principal para el grupo de Mingo, cuerda y cartel */}
+      {/* Se ha cambiado justify-center a justify-start y se ha añadido padding-left responsivo */}
+      <div className="relative w-full h-full flex justify-start items-start pt-10 md:pt-20 lg:pt-0 pl-4 md:pl-8 lg:pl-16">
+        {/* Contenedor del grupo Mingo, cuerda y cartel */}
+        {/* Se ha añadido posicionamiento left responsivo para mover el grupo a la izquierda */}
+        <div className="relative flex flex-col items-center left-[5%] md:left-[8%] lg:left-[10%]" style={{ top: '5vh' }}>
           <img
             ref={mingoImageRef}
             src="/images/mingo.png"
             alt="Mingo"
-            className={`absolute top-[-150px] left-[31%] -translate-x-1/2 w-[220px] h-[220px] object-contain z-30 cursor-pointer ${mingoAnimation}`}
+            // *** AQUÍ ESTÁN LOS AJUSTES PARA POSICIONAR LA MANO DE MINGO ***
+            // Usamos left-1/2 -translate-x-1/2 para centrarlo, y luego un translateX en style para el ajuste fino.
+            className={`absolute z-30 cursor-pointer object-contain ${mingoAnimation}
+                        w-[150px] h-[150px] top-[-70px] left-1/2 -translate-x-1/2
+                        md:w-[200px] md:h-[200px] md:top-[-z80px]
+                        lg:w-[250px] lg:h-[282px] lg:top-[-190px]`}
+            style={{ transform: `translateX(-105px)` }} // Ajusta este valor (e.g., 15px) para mover Mingo a la derecha. Negativo para izquierda.
             onClick={handleMingoClick}
           />
-          <div className="h-[100px] w-[2px] bg-white origin-top animate-swing-rope z-20"></div>
+          {/* Cuerda: Ajustado height para responsividad */}
+          <div className="h-[80px] md:h-[100px] lg:h-[120px] w-[2px] bg-white origin-top animate-swing-rope z-20"></div>
+          {/* Cartel: Ajustado width y height para responsividad */}
           <img
             ref={cartelImageRef}
             src="/images/cartel.png"
             alt="Cartel de Se Busca"
-            className={`w-[500px] h-[700px] object-contain animate-swing-poster origin-top z-10 ${cartelAnimation}`}
+            className={`w-[250px] h-[350px] object-contain animate-swing-poster origin-top z-10 ${cartelAnimation}
+                        md:w-[400px] md:h-[550px]
+                        lg:w-[500px] lg:h-[700px]`}
             style={{ marginTop: '-2px' }}
           />
         </div>
@@ -121,7 +134,9 @@ const HeroSection = () => {
       <img
         src="/images/luffy.gif"
         alt="Luffy navegando en su barco"
-        className={`absolute bottom-[0px] right-0 h-[500px] object-contain z-20 ${getLuffyAnimationClasses()}`}
+        // Ajustado height para responsividad
+        className={`absolute bottom-[0px] right-0 h-[300px] object-contain z-20 ${getLuffyAnimationClasses()}
+                    md:h-[400px] lg:h-[500px]`}
         onClick={handleLuffyClick}
       />
 

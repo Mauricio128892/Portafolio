@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,12 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        'wood-dark': '#5C4033', 
-        'primary-gold': '#DAA520', 
-        
+        'sea-blue': '#...', // Tus colores
       },
-      fontFamily: {
-   
+      backgroundImage: {
+        'waves-pattern': "url('/images/tu-patron-de-ondas.svg')", // Tu imagen de fondo de olas
+      },
+      keyframes: {
+        // Puedes definir keyframes personalizados aquí si lo deseas
+      },
+      animation: {
+        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', // Asegúrate de que 'pulse' esté aquí
       },
     },
   },
