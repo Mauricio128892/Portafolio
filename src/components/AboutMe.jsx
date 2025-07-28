@@ -115,7 +115,7 @@ const AboutMe = () => {
           // Reducido height de '80vh' a '60vh' o '70vh' para que Luffy toque el borde. Prueba ambos.
           // Si Luffy aún no toca, podrías incluso darle 'h-auto' y que la imagen misma defina la altura
           // O asegúrate que la imagen en sí no tiene padding interno.
-          style={{ width: '40%', height: '50vh', zIndex: 20 }}
+          style={{ width: '55%', height: '50vh', zIndex: 20 }}
         >
           {/* Luffy ORIGINAL - visible cuando la animación NO está activa */}
           {!showAnimatedLuffy && (
