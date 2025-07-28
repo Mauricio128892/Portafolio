@@ -5,7 +5,6 @@ const AboutMe = () => {
   const sectionRef = useRef(null);
   const [hakiRays, setHakiRays] = useState([]);
   const [sectionShakeAnimation, setSectionShakeAnimation] = useState('');
-  // Estado para controlar si el Luffy original está siendo "cubierto" por la animación
   const [showAnimatedLuffy, setShowAnimatedLuffy] = useState(false);
 
   useEffect(() => {
@@ -97,7 +96,6 @@ const AboutMe = () => {
               <h3 className="3xl font-metal-mania text-amber-500 mb-4">El Saber Ser</h3>
               <p className="text-lg leading-relaxed text-white">Aquí va a ir la información de saber ser.</p>
             </div>
-
             <div className="mb-10">
               <h3 className="3xl font-metal-mania text-amber-500 mb-4">Cursos y Formación Extra</h3>
               <p className="text-lg leading-relaxed text-white">Aquí va a ir la información de cursos y formación extra.</p>
@@ -110,42 +108,14 @@ const AboutMe = () => {
           </div>
         </div>
 
-        {/* CONTENEDOR ESPECÍFICO PARA LOS SUELOS - Restaurado a tu código original */}
-        <div
-          className="w-full lg:w-[45%] absolute bottom-0 left-1/2 transform -translate-x-1/2"
-          style={{ height: 'auto', maxHeight: 'calc(100% - 8rem)' }}
-        >
-          <img
-            src="/images/suelo.png"
-            alt="Suelo 1"
-            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
-            style={{ bottom: '0vh' }}
-          />
-          <img
-            src="/images/suelo.png"
-            alt="Suelo 2"
-            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
-            style={{ bottom: '9vh' }}
-          />
-          <img
-            src="/images/suelo.png"
-            alt="Suelo 3"
-            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
-            style={{ bottom: '18vh' }}
-          />
-          <img
-            src="/images/suelo.png"
-            alt="Suelo 4"
-            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
-            style={{ bottom: '27vh' }}
-          />
-        </div>
-
         {/* CONTENEDOR DE LUFFY (PADRE DE ORIGINAL Y ANIMADO) */}
-        {/* Este contenedor mantiene la posición del Luffy original */}
+        {/* Se ajusta la altura para que el objeto 'contain' se pegue al 'bottom-0' más efectivamente */}
         <div
           className="absolute bottom-0 right-0 transform translate-x-1/4 flex justify-center items-end"
-          style={{ width: '45%', height: '80vh', zIndex: 20 }}
+          // Reducido height de '80vh' a '60vh' o '70vh' para que Luffy toque el borde. Prueba ambos.
+          // Si Luffy aún no toca, podrías incluso darle 'h-auto' y que la imagen misma defina la altura
+          // O asegúrate que la imagen en sí no tiene padding interno.
+          style={{ width: '40%', height: '50vh', zIndex: 20 }}
         >
           {/* Luffy ORIGINAL - visible cuando la animación NO está activa */}
           {!showAnimatedLuffy && (
@@ -166,7 +136,6 @@ const AboutMe = () => {
                 src="/images/gear5.gif"
                 alt="Gear 5 GIF Animation"
                 className={`relative w-full h-full object-contain animate-luffy-power-release z-20`}
-                // No es clickeable, solo una visualización temporal
               />
             </>
           )}
