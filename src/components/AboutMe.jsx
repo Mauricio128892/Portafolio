@@ -1,18 +1,17 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 const AboutMe = () => {
-  const risaAudioRef = useRef(null); // Referencia para el audio de la risa
-  const sectionRef = useRef(null); // Referencia para la sección completa
-  const [hakiRays, setHakiRays] = useState([]); // Estado para almacenar los rayos de Haki
-  const [luffyPowerAnimation, setLuffyPowerAnimation] = useState(''); // Estado para la animación de poder de Luffy
-  const [sectionShakeAnimation, setSectionShakeAnimation] = useState(''); // Estado para la animación de temblor de la sección
+  const risaAudioRef = useRef(null);
+  const sectionRef = useRef(null);
+  const [hakiRays, setHakiRays] = useState([]);
+  const [sectionShakeAnimation, setSectionShakeAnimation] = useState('');
+  // Estado para controlar si el Luffy original está siendo "cubierto" por la animación
+  const [showAnimatedLuffy, setShowAnimatedLuffy] = useState(false);
 
   useEffect(() => {
-    // Inicializa el audio de la risa de Luffy
     risaAudioRef.current = new Audio('/audio/risa.mp3');
-    risaAudioRef.current.load(); // Precarga el audio
+    risaAudioRef.current.load();
 
-    // Limpieza al desmontar el componente
     return () => {
       if (risaAudioRef.current) {
         risaAudioRef.current.pause();
@@ -20,73 +19,64 @@ const AboutMe = () => {
       }
       risaAudioRef.current = null;
     };
-  }, []); // Se ejecuta solo una vez al montar y desmontar
+  }, []);
 
-  // Manejador de clic para el GIF de Luffy
   const handleLuffyClick = useCallback(() => {
     if (risaAudioRef.current) {
-      risaAudioRef.current.pause(); // Pausa si ya se estaba reproduciendo
-      risaAudioRef.current.currentTime = 0; // Reinicia el audio
+      risaAudioRef.current.pause();
+      risaAudioRef.current.currentTime = 0;
       risaAudioRef.current.play().catch(e => console.error("Error al reproducir el audio de risa:", e));
 
-      // Activa la animación de poder de Luffy
-      setLuffyPowerAnimation('animate-luffy-power-release');
-      // Activa la animación de temblor de la sección
+      setShowAnimatedLuffy(true); // Mostrar el Luffy animado
       setSectionShakeAnimation('animate-section-tremble');
 
-      // Generar rayos de Haki
       const newRays = [];
-      const numberOfRays = 15; // Puedes ajustar la cantidad de rayos
-      const rayDuration = 6000; // Duración de la animación del rayo en ms (6 segundos)
-      const maxDelay = 1500; // Retraso máximo para la aparición escalonada de los rayos (1.5 segundos)
+      const numberOfRays = 15;
+      const rayDuration = 6000;
+      const maxDelay = 1500;
 
       for (let i = 0; i < numberOfRays; i++) {
-        // Posiciones aleatorias dentro de la sección, evitando bordes superior e inferior
-        // (10% a 90% para top, dejando un 10% de margen arriba y abajo)
-        const top = Math.random() * (80) + 10; // % desde 10% a 90%
-        const left = Math.random() * 100; // % desde la izquierda
-        const size = Math.random() * (200 - 80) + 80; // Tamaño aleatorio entre 80px y 200px (más grandes)
-        const initialRotation = Math.random() * 360; // Rotación inicial aleatoria para variedad visual
-        const delay = (i / numberOfRays) * maxDelay; // Retraso escalonado para cada rayo
-        const shakeDirection = Math.random() > 0.5 ? 1 : -1; // Dirección aleatoria para la agitación (1 o -1)
+        const top = Math.random() * (80) + 10;
+        const left = Math.random() * 100;
+        const size = Math.random() * (200 - 80) + 80;
+        const initialRotation = Math.random() * 360;
+        const delay = (i / numberOfRays) * maxDelay;
+        const shakeDirection = Math.random() > 0.5 ? 1 : -1;
 
         newRays.push({
-          id: Date.now() + i, // ID único para cada rayo
+          id: Date.now() + i,
           top: `${top}%`,
           left: `${left}%`,
           width: `${size}px`,
           height: `${size}px`,
-          initialRotation: initialRotation, // Guardamos la rotación inicial
-          delay: `${delay}ms`, // Propiedad de retraso para la animación
-          shakeDirection: shakeDirection // Propiedad para la dirección de agitación
+          initialRotation: initialRotation,
+          delay: `${delay}ms`,
+          '--shake-direction': shakeDirection,
         });
       }
 
       setHakiRays(newRays);
 
-      // Eliminar los rayos, la animación de Luffy y la animación de temblor de la sección después de la duración del audio
       setTimeout(() => {
         setHakiRays([]);
-        setLuffyPowerAnimation('');
         setSectionShakeAnimation('');
+        setShowAnimatedLuffy(false); // Ocultar el Luffy animado después de la animación
       }, rayDuration);
     }
   }, []);
 
   return (
-    <> {/* Fragmento para envolver múltiples elementos de nivel superior */}
-      {/* Contenedor principal de la sección "Sobre Mí". */}
+    <div className="about-me-container">
       <section
         id="sobre-mi"
-        ref={sectionRef} // Asignamos la referencia a la sección
-        className={`py-20 px-4 md:px-8 lg:px-16 bg-[url('/images/fondo2.png')] bg-cover bg-no-repeat bg-center relative z-10 overflow-hidden ${sectionShakeAnimation}`} // Animación de temblor de la sección
+        ref={sectionRef}
+        className={`py-20 px-4 md:px-8 lg:px-16 bg-[url('/images/fondo2.png')] bg-cover bg-no-repeat bg-center relative z-10 overflow-hidden min-h-screen ${sectionShakeAnimation}`}
       >
-        {/* Separador superior */}
+        {/* Separador superior - ABSOLUTO RESPECTO A LA SECCIÓN */}
         <div className="w-full h-8 bg-[#15171F] absolute top-0 left-0"></div>
 
-        {/* Contenedor principal del contenido de texto y el GIF */}
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-center justify-start gap-x-16 relative z-10">
-
+        {/* Contenedor principal del contenido de texto */}
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-start gap-x-16 relative z-10 h-full">
           {/* Contenedor para el fondo negro del texto. */}
           <div className="w-full lg:w-1/2 bg-black p-6 rounded-lg shadow-lg text-white mb-8 lg:mb-0 lg:pr-8">
             <h2 className="text-5xl md:text-6xl font-pirata-one text-amber-500 text-left mb-12">
@@ -118,45 +108,68 @@ const AboutMe = () => {
               <p className="text-lg leading-relaxed text-white">Aquí va a ir la información de pasatiempos.</p>
             </div>
           </div>
+        </div>
 
-          {/* Contenedor para el GIF de Gear 5 y los suelos */}
-          {/* Este div actuará como el padre relativo para Luffy y las imágenes del suelo */}
-          <div className="w-full lg:w-1/2 relative h-[40vh] md:h-[50vh] lg:h-[60vh] flex justify-center items-end overflow-hidden">
+        {/* CONTENEDOR ESPECÍFICO PARA LOS SUELOS - Restaurado a tu código original */}
+        <div
+          className="w-full lg:w-[45%] absolute bottom-0 left-1/2 transform -translate-x-1/2"
+          style={{ height: 'auto', maxHeight: 'calc(100% - 8rem)' }}
+        >
+          <img
+            src="/images/suelo.png"
+            alt="Suelo 1"
+            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
+            style={{ bottom: '0vh' }}
+          />
+          <img
+            src="/images/suelo.png"
+            alt="Suelo 2"
+            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
+            style={{ bottom: '9vh' }}
+          />
+          <img
+            src="/images/suelo.png"
+            alt="Suelo 3"
+            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
+            style={{ bottom: '18vh' }}
+          />
+          <img
+            src="/images/suelo.png"
+            alt="Suelo 4"
+            className="absolute w-full h-[10vh] object-cover left-24 -translate-x-1/2 z-0"
+            style={{ bottom: '27vh' }}
+          />
+        </div>
+
+        {/* CONTENEDOR DE LUFFY (PADRE DE ORIGINAL Y ANIMADO) */}
+        {/* Este contenedor mantiene la posición del Luffy original */}
+        <div
+          className="absolute bottom-0 right-0 transform translate-x-1/4 flex justify-center items-end"
+          style={{ width: '45%', height: '80vh', zIndex: 20 }}
+        >
+          {/* Luffy ORIGINAL - visible cuando la animación NO está activa */}
+          {!showAnimatedLuffy && (
             <img
               src="/images/gear5.gif"
               alt="Gear 5 GIF"
-              // Posicionamiento absoluto dentro de este contenedor, centrado horizontalmente
-              className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-auto h-[30vh] md:h-[40vh] lg:h-[50vh] cursor-pointer object-contain ${luffyPowerAnimation} z-10`} // Luffy on top of the ground
+              className={`relative w-full h-full object-contain cursor-pointer z-10`}
               onClick={handleLuffyClick}
             />
+          )}
 
-            {/* Imágenes del suelo (posicionadas dentro de este mismo contenedor) */}
-            {/* Usan ancho completo del padre y altura en vh para responsividad */}
-            <img
-              src="/images/suelo.png"
-              alt="Suelo 1"
-              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
-              style={{ bottom: '0vh' }}
-            />
-            <img
-              src="/images/suelo.png"
-              alt="Suelo 2"
-              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
-              style={{ bottom: '7vh' }} /* Ajustado para superponerse ligeramente */
-            />
-            <img
-              src="/images/suelo.png"
-              alt="Suelo 3"
-              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
-              style={{ bottom: '14vh' }} /* Ajustado para superponerse ligeramente */
-            />
-            <img
-              src="/images/suelo.png"
-              alt="Suelo 4"
-              className="absolute w-full h-[8vh] object-cover left-1/2 -translate-x-1/2 z-0"
-              style={{ bottom: '21vh' }} /* Ajustado para superponerse ligeramente */
-            />
-          </div>
+          {/* Luffy ANIMADO - visible SOLO cuando la animación está activa */}
+          {showAnimatedLuffy && (
+            <>
+              {/* Aura para el Luffy animado */}
+              <div className={`luffy-aura animate-luffy-aura-release`}></div>
+              <img
+                src="/images/gear5.gif"
+                alt="Gear 5 GIF Animation"
+                className={`relative w-full h-full object-contain animate-luffy-power-release z-20`}
+                // No es clickeable, solo una visualización temporal
+              />
+            </>
+          )}
         </div>
 
         {/* Renderizado de los rayos de Haki */}
@@ -165,70 +178,91 @@ const AboutMe = () => {
             key={ray.id}
             src="/images/rayo.png"
             alt="Rayo Haki"
-            className="absolute object-contain animate-haki-agitate z-40" // Clase de animación cambiada a 'animate-haki-agitate'
+            className="absolute object-contain animate-haki-agitate z-40"
             style={{
               top: ray.top,
               left: ray.left,
               width: ray.width,
               height: ray.height,
-              // Combinamos la rotación inicial con la agitación
               transform: `translate(-50%, -50%) rotate(${ray.initialRotation}deg)`,
-              animationDelay: ray.delay, // Aplicamos el retraso escalonado
-              '--shake-direction': ray.shakeDirection, // Pasamos la dirección de agitación como variable CSS
+              animationDelay: ray.delay,
+              '--shake-direction': ray.shakeDirection,
             }}
           />
         ))}
 
-        {/* Separador inferior */}
+        {/* Separador inferior - ABSOLUTO RESPECTO A LA SECCIÓN */}
         <div className="w-full h-8 bg-[#15171F] absolute bottom-0 left-0"></div>
       </section>
 
-      <style>
-        {`
-        /* Animación para los rayos de Haki (agitación) */
+      <style>{`
+        /* Tus estilos de animación aquí */
         @keyframes haki-agitate {
           0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) translateX(0px); }
-          5% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) translateX(0px); } /* Aparece y escala */
-          10%, 30%, 50%, 70%, 90% { transform: translate(-50%, -50%) scale(1.2) translateX(calc(var(--shake-direction, 1) * 20px)); } /* Agitación más fuerte */
-          20%, 40%, 60%, 80% { transform: translate(-50%, -50%) scale(1.2) translateX(calc(var(--shake-direction, 1) * -20px)); } /* Agitación más fuerte */
-          95% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) translateX(0px); } /* Se asienta antes de desvanecerse */
-          100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3) translateX(0px); } /* Se desvanece y escala un poco más */
+          5% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) translateX(0px); }
+          10%, 30%, 50%, 70%, 90% { transform: translate(-50%, -50%) scale(1.2) translateX(calc(var(--shake-direction, 1) * 20px)); }
+          20%, 40%, 60%, 80% { transform: translate(-50%, -50%) scale(1.2) translateX(calc(var(--shake-direction, 1) * -20px)); }
+          95% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) translateX(0px); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3) translateX(0px); }
         }
         .animate-haki-agitate {
-          animation: haki-agitate 6s ease-out forwards; /* Duración de la animación ajustada a 6 segundos */
+          animation: haki-agitate 6s ease-out forwards;
         }
 
-        /* Animación de poder para Luffy */
         @keyframes luffy-power-release {
-          0% { transform: translateY(0) scale(1); filter: brightness(1); } /* Adjusted for new positioning */
-          5% { transform: translateY(0) scale(1.1) rotate(5deg); filter: brightness(1.5) drop-shadow(0 0 15px yellow) drop-shadow(0 0 25px orange); }
-          95% { transform: translateY(0) scale(1.1) rotate(-5deg); filter: brightness(1.5) drop-shadow(0 0 15px yellow) drop-shadow(0 0 25px orange); }
-          100% { transform: translateY(0) scale(1); filter: brightness(1); }
+          0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+          5% { transform: scale(1.1) rotate(5deg); filter: brightness(1); }
+          95% { transform: scale(1.1) rotate(-5deg); filter: brightness(1); }
+          100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
         }
         .animate-luffy-power-release {
-          animation: luffy-power-release 6s ease-in-out forwards; /* Lasts 6 seconds */
+          animation: luffy-power-release 6s ease-in-out forwards;
         }
 
-        /* Animación de temblor para la sección */
+        /* NEW AURA ANIMATION - MODIFIED FOR SUBTLE BLUR */
+        .luffy-aura {
+          position: absolute;
+          width: 50%; /* Start size, relative to parent container */
+          height: 50%;
+          border-radius: 50%;
+          opacity: 0;
+          transform: scale(0);
+          z-index: 0; /* Behind Luffy */
+          filter: blur(20px); /* Keep the blur effect */
+          bottom: 0; /* Asegurarse de que esté en la base del Luffy */
+          left: 50%;
+          transform: translateX(-50%) scale(0); /* Centrar horizontalmente y escalar */
+        }
+
+        @keyframes luffy-aura-effect {
+          0% { opacity: 0; transform: translateX(-50%) scale(0); }
+          5% { opacity: 0.5; transform: translateX(-50%) scale(1.5); }
+          50% { opacity: 0.7; transform: translateX(-50%) scale(2.0); }
+          95% { opacity: 0.5; transform: translateX(-50%) scale(1.5); }
+          100% { opacity: 0; transform: translateX(-50%) scale(0); }
+        }
+        .animate-luffy-aura-release {
+          animation: luffy-aura-effect 6s ease-out forwards; /* Matches ray duration */
+        }
+
         @keyframes section-tremble {
           0% { transform: translate(0, 0); }
-          10% { transform: translate(-3px, -3px); } /* Increased tremble */
-          20% { transform: translate(3px, 3px); } /* Increased tremble */
-          30% { transform: translate(-3px, 3px); } /* Increased tremble */
-          40% { transform: translate(3px, -3px); } /* Increased tremble */
-          50% { transform: translate(-3px, -3px); } /* Increased tremble */
-          60% { transform: translate(3px, 3px); } /* Increased tremble */
-          70% { transform: translate(-3px, 3px); } /* Increased tremble */
-          80% { transform: translate(3px, -3px); } /* Increased tremble */
-          90% { transform: translate(-3px, -3px); } /* Increased tremble */
+          10% { transform: translate(-3px, -3px); }
+          20% { transform: translate(3px, 3px); }
+          30% { transform: translate(-3px, 3px); }
+          40% { transform: translate(3px, -3px); }
+          50% { transform: translate(-3px, -3px); }
+          60% { transform: translate(3px, 3px); }
+          70% { transform: translate(-3px, 3px); }
+          80% { transform: translate(3px, -3px); }
+          90% { transform: translate(-3px, -3px); }
           100% { transform: translate(0, 0); }
         }
         .animate-section-tremble {
-          animation: section-tremble 0.1s infinite; /* Fast and infinite animation during the 6 seconds */
+          animation: section-tremble 0.1s infinite;
         }
-        `}
-      </style>
-    </> {/* Close Fragment */}
+      `}</style>
+    </div>
   );
 };
 
