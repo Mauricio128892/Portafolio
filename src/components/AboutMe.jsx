@@ -8,6 +8,7 @@ const AboutMe = () => {
   const [showAnimatedLuffy, setShowAnimatedLuffy] = useState(false);
 
   useEffect(() => {
+    // Inicialización y limpieza del audio
     risaAudioRef.current = new Audio('/audio/risa.mp3');
     risaAudioRef.current.load();
 
@@ -20,13 +21,14 @@ const AboutMe = () => {
     };
   }, []);
 
+  // Función para manejar el clic en Luffy
   const handleLuffyClick = useCallback(() => {
     if (risaAudioRef.current) {
       risaAudioRef.current.pause();
       risaAudioRef.current.currentTime = 0;
       risaAudioRef.current.play().catch(e => console.error("Error al reproducir el audio de risa:", e));
 
-      setShowAnimatedLuffy(true); // Mostrar el Luffy animado
+      setShowAnimatedLuffy(true);
       setSectionShakeAnimation('animate-section-tremble');
 
       const newRays = [];
@@ -59,7 +61,7 @@ const AboutMe = () => {
       setTimeout(() => {
         setHakiRays([]);
         setSectionShakeAnimation('');
-        setShowAnimatedLuffy(false); // Ocultar el Luffy animado después de la animación
+        setShowAnimatedLuffy(false);
       }, rayDuration);
     }
   }, []);
@@ -69,15 +71,19 @@ const AboutMe = () => {
       <section
         id="sobre-mi"
         ref={sectionRef}
-        className={`py-20 px-4 md:px-8 lg:px-16 bg-[url('/images/fondo2.png')] bg-cover bg-no-repeat bg-center relative z-10 overflow-hidden min-h-screen ${sectionShakeAnimation}`}
+        // Se ha ajustado la sección principal con `pt-16` y `pb-16` para un padding vertical consistente.
+        className={`px-4 md:px-8 lg:px-16 pt-16 pb-16 bg-[url('/images/fondo2.png')] bg-cover bg-no-repeat bg-center relative z-10 overflow-hidden flex justify-center items-center ${sectionShakeAnimation}`}
       >
-        {/* Separador superior - ABSOLUTO RESPECTO A LA SECCIÓN */}
+        {/* Separador superior */}
         <div className="w-full h-8 bg-[#15171F] absolute top-0 left-0"></div>
 
-        {/* Contenedor principal del contenido de texto */}
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-start gap-x-16 relative z-10 h-full">
-          {/* Contenedor para el fondo negro del texto. */}
-          <div className="w-full lg:w-1/2 bg-black p-6 rounded-lg shadow-lg text-white mb-8 lg:mb-0 lg:pr-8">
+        {/* Contenedor principal del contenido. Se han eliminado los rellenos verticales. */}
+        {/* Se utiliza flex-col-reverse para que el GIF vaya arriba en móvil, y se anula con lg:flex-row en desktop. */}
+        <div className="max-w-6xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-center gap-x-8 relative z-10 w-full">
+
+          {/* Contenedor de la información de "Sobre Mí" */}
+          {/* Se han eliminado los márgenes inferiores para evitar conflictos con el padding del contenedor padre. */}
+          <div className="w-full lg:w-1/2 bg-black p-6 rounded-lg shadow-lg text-white lg:pr-8">
             <h2 className="text-5xl md:text-6xl font-pirata-one text-amber-500 text-left mb-12">
               Sobre Mí
             </h2>
@@ -106,39 +112,36 @@ const AboutMe = () => {
               <p className="text-lg leading-relaxed text-white">Aquí va a ir la información de pasatiempos.</p>
             </div>
           </div>
-        </div>
+          
+          {/* Contenedor del GIF de Luffy */}
+          {/* Se han eliminado los márgenes inferiores para evitar conflictos con el padding del contenedor padre. */}
+          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end items-end lg:mr-8">
+            <div className="relative w-full h-full flex justify-center items-center">
+              {/* Luffy ORIGINAL - visible cuando la animación NO está activa */}
+              {!showAnimatedLuffy && (
+                <img
+                  src="/images/gear5.gif"
+                  alt="Gear 5 GIF"
+                  className={`relative w-full max-h-[45.5vh] lg:max-h-[50vh] object-contain cursor-pointer z-10`}
+                  onClick={handleLuffyClick}
+                />
+              )}
 
-        {/* CONTENEDOR DE LUFFY (PADRE DE ORIGINAL Y ANIMADO) */}
-        {/* Se ajusta la altura para que el objeto 'contain' se pegue al 'bottom-0' más efectivamente */}
-        <div
-          className="absolute bottom-0 right-0 transform translate-x-1/4 flex justify-center items-end"
-          // Reducido height de '80vh' a '60vh' o '70vh' para que Luffy toque el borde. Prueba ambos.
-          // Si Luffy aún no toca, podrías incluso darle 'h-auto' y que la imagen misma defina la altura
-          // O asegúrate que la imagen en sí no tiene padding interno.
-          style={{ width: '55%', height: '50vh', zIndex: 20 }}
-        >
-          {/* Luffy ORIGINAL - visible cuando la animación NO está activa */}
-          {!showAnimatedLuffy && (
-            <img
-              src="/images/gear5.gif"
-              alt="Gear 5 GIF"
-              className={`relative w-full h-full object-contain cursor-pointer z-10`}
-              onClick={handleLuffyClick}
-            />
-          )}
+              {/* Luffy ANIMADO - visible SOLO cuando la animación está activa */}
+              {showAnimatedLuffy && (
+                <>
+                  {/* Aura para el Luffy animado */}
+                  <div className={`luffy-aura animate-luffy-aura-release`}></div>
+                  <img
+                    src="/images/gear5.gif"
+                    alt="Gear 5 GIF Animation"
+                    className={`relative w-full max-h-[45.5vh] lg:max-h-[50vh] object-contain animate-luffy-power-release z-20`}
+                  />
+                </>
+              )}
+            </div>
+          </div>
 
-          {/* Luffy ANIMADO - visible SOLO cuando la animación está activa */}
-          {showAnimatedLuffy && (
-            <>
-              {/* Aura para el Luffy animado */}
-              <div className={`luffy-aura animate-luffy-aura-release`}></div>
-              <img
-                src="/images/gear5.gif"
-                alt="Gear 5 GIF Animation"
-                className={`relative w-full h-full object-contain animate-luffy-power-release z-20`}
-              />
-            </>
-          )}
         </div>
 
         {/* Renderizado de los rayos de Haki */}
@@ -160,12 +163,12 @@ const AboutMe = () => {
           />
         ))}
 
-        {/* Separador inferior - ABSOLUTO RESPECTO A LA SECCIÓN */}
+        {/* Separador inferior */}
         <div className="w-full h-8 bg-[#15171F] absolute bottom-0 left-0"></div>
       </section>
 
       <style>{`
-        /* Tus estilos de animación aquí */
+        /* Animaciones para la sección */
         @keyframes haki-agitate {
           0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) translateX(0px); }
           5% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) translateX(0px); }
@@ -188,19 +191,18 @@ const AboutMe = () => {
           animation: luffy-power-release 6s ease-in-out forwards;
         }
 
-        /* NEW AURA ANIMATION - MODIFIED FOR SUBTLE BLUR */
         .luffy-aura {
           position: absolute;
-          width: 50%; /* Start size, relative to parent container */
+          width: 50%;
           height: 50%;
           border-radius: 50%;
           opacity: 0;
           transform: scale(0);
-          z-index: 0; /* Behind Luffy */
-          filter: blur(20px); /* Keep the blur effect */
-          bottom: 0; /* Asegurarse de que esté en la base del Luffy */
+          z-index: 0;
+          filter: blur(20px);
+          bottom: 0;
           left: 50%;
-          transform: translateX(-50%) scale(0); /* Centrar horizontalmente y escalar */
+          transform: translateX(-50%) scale(0);
         }
 
         @keyframes luffy-aura-effect {
@@ -211,7 +213,7 @@ const AboutMe = () => {
           100% { opacity: 0; transform: translateX(-50%) scale(0); }
         }
         .animate-luffy-aura-release {
-          animation: luffy-aura-effect 6s ease-out forwards; /* Matches ray duration */
+          animation: luffy-aura-effect 6s ease-out forwards;
         }
 
         @keyframes section-tremble {
