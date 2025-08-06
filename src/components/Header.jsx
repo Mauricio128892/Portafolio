@@ -1,11 +1,12 @@
 // src/components/Header.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 // Importa los iconos de redes sociales. Asegúrate de tener 'react-icons' instalado.
-import { FaGithub, FaLinkedin, FaYoutube, FaBars, FaTimes } from 'react-icons/fa'; // Importa FaBars (hamburguesa) y FaTimes (cerrar)
+import { FaGithub, FaLinkedin, FaYoutube, FaBars, FaTimes } from 'react-icons/fa';
 
-const Header = () => {
-  // Estado para controlar la visibilidad del navbar al hacer scroll
-  const [isVisible, setIsVisible] = useState(true);
+// Recibe isAnyModalOpen como prop
+const Header = ({ isAnyModalOpen }) => {
+  // Estado para controlar la visibilidad del navbar (basado en scroll)
+  const [isVisibleByScroll, setIsVisibleByScroll] = useState(true);
   // Estado para guardar la última posición de scroll
   const [lastScrollY, setLastScrollY] = useState(0);
   // Estado para controlar la visibilidad del menú móvil (hamburguesa)
@@ -21,9 +22,9 @@ const Header = () => {
     const currentScrollY = window.scrollY;
 
     if (currentScrollY > lastScrollY) {
-      setIsVisible(false); // Oculta el navbar al bajar
+      setIsVisibleByScroll(false); // Oculta el navbar al bajar
     } else {
-      setIsVisible(true); // Muestra el navbar al subir o al estar en la parte superior
+      setIsVisibleByScroll(true); // Muestra el navbar al subir o al estar en la parte superior
     }
     setLastScrollY(currentScrollY);
   }, [lastScrollY]);
@@ -53,6 +54,11 @@ const Header = () => {
     document.body.style.overflow = 'unset'; // Habilita el scroll del body
   };
 
+  // Determina la visibilidad final del navbar:
+  // Si un modal está abierto, el navbar debe estar oculto.
+  // De lo contrario, sigue la lógica de visibilidad por scroll.
+  const finalIsVisible = isAnyModalOpen ? false : isVisibleByScroll;
+
   return (
     <>
       <header className={`fixed top-0 w-full z-50
@@ -60,7 +66,7 @@ const Header = () => {
                          border-b-8 border-primary-gold
                          shadow-lg py-4 px-8 flex justify-between items-center
                          transform transition-transform duration-300 ease-in-out
-                         ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+                         ${finalIsVisible ? 'translate-y-0' : '-translate-y-full'}`}>
 
         {/* Menú de escritorio (visible en md y pantallas más grandes) */}
         <nav className="hidden md:flex flex-grow justify-center">

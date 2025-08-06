@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 const HeroSection = () => {
   const luffyAudioRef = useRef(null);
-  const mingoAudioRef = useRef(null);
-  const mingoImageRef = useRef(null);
+  // Eliminado: mingoAudioRef
+  // Eliminado: mingoImageRef
   const cartelImageRef = useRef(null);
   const [luffyAnimationState, setLuffyAnimationState] = useState('idle');
-  const [mingoAnimation, setMingoAnimation] = useState('');
+  // Eliminado: mingoAnimation
   const [cartelAnimation, setCartelAnimation] = useState('');
 
   useEffect(() => {
@@ -14,9 +14,9 @@ const HeroSection = () => {
     luffyAudioRef.current = new Audio('/audio/sonido1.mp3');
     luffyAudioRef.current.load();
 
-    // Inicializa el audio de Mingo
-    mingoAudioRef.current = new Audio('/audio/mingo.mp3');
-    mingoAudioRef.current.load();
+    // Eliminado: Inicialización del audio de Mingo
+    // mingoAudioRef.current = new Audio('/audio/mingo.mp3');
+    // mingoAudioRef.current.load();
 
     const audio = luffyAudioRef.current;
     const handleAudioEnded = () => {
@@ -32,12 +32,13 @@ const HeroSection = () => {
         audio.pause();
         audio.currentTime = 0;
       }
-      if (mingoAudioRef.current) {
-        mingoAudioRef.current.pause();
-        mingoAudioRef.current.currentTime = 0;
-      }
+      // Eliminado: Limpieza del audio de Mingo
+      // if (mingoAudioRef.current) {
+      //   mingoAudioRef.current.pause();
+      //   mingoAudioRef.current.currentTime = 0;
+      // }
       luffyAudioRef.current = null;
-      mingoAudioRef.current = null;
+      // Eliminado: mingoAudioRef.current = null;
     };
   }, []);
 
@@ -70,52 +71,24 @@ const HeroSection = () => {
     return `object-contain cursor-pointer ${animationClass}`;
   };
 
-  const handleMingoClick = useCallback(() => {
-    if (mingoAudioRef.current) {
-      mingoAudioRef.current.pause();
-      mingoAudioRef.current.currentTime = 0;
-      mingoAudioRef.current.play().catch(e => console.error("Error al reproducir el audio de Mingo:", e));
-
-      // Animación de Mingo
-      setMingoAnimation('animate-mingo-laugh');
-      setTimeout(() => {
-        setMingoAnimation('');
-      }, 4000); // Duración de la animación de Mingo (4 segundos)
-
-      // Animación del cartel
-      setCartelAnimation('animate-cartel-shake');
-      setTimeout(() => {
-        setCartelAnimation('');
-      }, 4000); // Duración de la animación del cartel (4 segundos)
-    }
-  }, []);
+  // Eliminado: handleMingoClick
 
   return (
     <section
       id="inicio"
-      className="relative min-h-screen w-full flex flex-col items-center justify-center
-                   bg-cover bg-center bg-no-repeat overflow-hidden"
+      className="relative min-h-screen w-full
+                   bg-cover bg-center bg-no-repeat overflow-hidden" // Se eliminaron las clases de flexbox
       style={{ backgroundImage: `url('/images/cielo2.gif')` }}
     >
       {/* Contenedor principal para el grupo de Mingo, cuerda y cartel */}
       {/* Se ha cambiado justify-center a justify-start y se ha añadido padding-left responsivo */}
+      {/* Eliminado el div padre con top: '5vh' */}
       <div className="relative w-full h-full flex justify-start items-start pt-10 md:pt-20 lg:pt-0 pl-4 md:pl-8 lg:pl-16">
         {/* Contenedor del grupo Mingo, cuerda y cartel */}
         {/* Se ha añadido posicionamiento left responsivo para mover el grupo a la izquierda */}
-        <div className="relative flex flex-col items-center left-[5%] md:left-[8%] lg:left-[10%]" style={{ top: '5vh' }}>
-          <img
-            ref={mingoImageRef}
-            src="/images/mingo.png"
-            alt="Mingo"
-            // *** AQUÍ ESTÁN LOS AJUSTES PARA POSICIONAR LA MANO DE MINGO ***
-            // Usamos left-1/2 -translate-x-1/2 para centrarlo, y luego un translateX en style para el ajuste fino.
-            className={`absolute z-30 cursor-pointer object-contain ${mingoAnimation}
-                        w-[150px] h-[150px] top-[-70px] left-1/2 -translate-x-1/2
-                        md:w-[200px] md:h-[200px] md:top-[-80px]
-                        lg:w-[250px] lg:h-[282px] lg:top-[-190px]`}
-            style={{ transform: `translateX(-105px)` }} // Ajusta este valor (e.g., 15px) para mover Mingo a la derecha. Negativo para izquierda.
-            onClick={handleMingoClick}
-          />
+        {/* Posicionado directamente debajo del navbar con top-[70px] */}
+        <div className="absolute top-[70px] left-[5%] md:left-[8%] lg:left-[10%] flex flex-col items-center">
+          {/* Eliminado: Imagen de Mingo */}
           {/* Cuerda: Ajustado height para responsividad */}
           <div className="h-[80px] md:h-[100px] lg:h-[120px] w-[2px] bg-white origin-top animate-swing-rope z-20"></div>
           {/* Cartel: Ajustado width y height para ser 35% más chicos */}
@@ -127,7 +100,7 @@ const HeroSection = () => {
                         md:w-[260px] md:h-[358px]
                         lg:w-[325px] lg:h-[455px]`}
             style={{ marginTop: '-2px' }}
-            onClick={handleMingoClick} // El cartel también es clicable para el audio de Mingo
+            // Eliminado: onClick={handleMingoClick}
           />
         </div>
       </div>
@@ -135,9 +108,9 @@ const HeroSection = () => {
       <img
         src="/images/luffy.gif"
         alt="Luffy navegando en su barco"
-        // Ajustado height para responsividad
-        className={`absolute bottom-[0px] right-0 h-[300px] object-contain z-20 ${getLuffyAnimationClasses()}
-                    md:h-[400px] lg:h-[500px]`}
+        // Ajustado height para ser 25% más pequeño
+        className={`absolute bottom-[0px] right-0 h-[225px] object-contain z-20 ${getLuffyAnimationClasses()}
+                    md:h-[300px] lg:h-[375px]`}
         onClick={handleLuffyClick}
       />
 
@@ -177,14 +150,8 @@ const HeroSection = () => {
           animation: slide-in-right-fade-in 1s forwards;
         }
 
-        @keyframes mingo-laugh {
-          0% { transform: scale(1) rotate(0deg); }
-          50% { transform: scale(1.05) rotate(5deg); }
-          100% { transform: scale(1) rotate(0deg); }
-        }
-        .animate-mingo-laugh {
-          animation: mingo-laugh 4s ease-in-out; /* Duración ajustada a 4 segundos */
-        }
+        /* Eliminado: @keyframes mingo-laugh */
+        /* Eliminado: .animate-mingo-laugh */
 
         @keyframes cartel-shake {
           0%, 100% { transform: translateX(0) rotate(-5deg); }

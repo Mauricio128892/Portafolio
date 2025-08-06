@@ -1,8 +1,10 @@
+// src/components/Projects.jsx
 import React, { useState, useEffect } from 'react';
 import ProjectModal from './ProjectModal'; // Asegúrate de que este componente exista
 import ProjectChest from './ProjectChest'; // Asegúrate de que este componente exista
 
-const Projects = () => {
+// Recibe onModalOpen y onModalClose como props
+const Projects = ({ onModalOpen, onModalClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -11,21 +13,21 @@ const Projects = () => {
       id: 1,
       title: 'Página Web Profesional para Psicóloga',
       description: 'Una página web profesional diseñada para mi madre, una psicóloga. Permite a los visitantes acceder a su información personal, conocer los tipos de terapias que ofrece y sus estudios. Además, los usuarios pueden agendar citas directamente o enviar mensajes a través de WhatsApp, facilitando la comunicación y el acceso a sus servicios.',
-      link: '[https://mama432.netlify.app/](https://mama432.netlify.app/)',
+      link: 'https://mama432.netlify.app/',
       images: ['/images/foto1.png', '/images/foto2.png', '/images/foto3.png', '/images/foto4.png']
     },
     {
       id: 2,
       title: 'Página Web de Rutinas de Gimnasio',
       description: 'Una plataforma web dedicada a rutinas de gimnasio que incluye un sistema de inicio y cierre de sesión con Google. Los usuarios pueden acceder a diversas rutinas personalizadas y gestionar su progreso de entrenamiento de manera sencilla y segura.',
-      link: '[https://examennnn.netlify.app/](https://examennnn.netlify.app/)',
+      link: 'https://examennnn.netlify.app/',
       images: ['/images/foto11.png', '/images/foto12.png', '/images/foto13.png', '/images/foto14.png']
     },
     {
       id: 3,
       title: 'Sistema de Gestión de Recursos Humanos',
       description: 'Una aplicación web de recursos humanos que permite el ingreso mediante una cuenta de Google. Facilita la adición de trabajadores, sus datos y roles, incluye una función de filtrado de búsqueda y una sección dedicada al perfil de usuario, con opción de cerrar sesión.',
-      link: '[https://rh2.netlify.app/](https://rh2.netlify.app/)', // Link corregido
+      link: 'https://rh2.netlify.app/', // Link corregido
       images: ['/images/foto20.png', '/images/foto21.png', '/images/foto22.png', '/images/foto23.png'] // Imágenes corregidas
     },
   ];
@@ -33,21 +35,21 @@ const Projects = () => {
   const openModal = (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
-    document.body.classList.add('modal-open'); // Añade clase al body al abrir el modal
+    if (onModalOpen) {
+      onModalOpen(); // Llama a la función de App para indicar que el modal está abierto
+    }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedProject(null);
-    document.body.classList.remove('modal-open'); // Remueve clase al cerrar el modal
+    if (onModalClose) {
+      onModalClose(); // Llama a la función de App para indicar que el modal está cerrado
+    }
   };
 
-  useEffect(() => {
-    // Limpia la clase del body al desmontar el componente por si acaso
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
-  }, []);
+  // No es necesario un useEffect para limpiar la clase del body aquí,
+  // ya que App.jsx gestiona el estado centralmente.
 
   return (
     <section id="proyectos" className="relative bg-black min-h-screen flex flex-col justify-center items-center py-16">
