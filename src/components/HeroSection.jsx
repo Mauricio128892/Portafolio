@@ -94,7 +94,7 @@ const HeroSection = () => {
     <section
       id="inicio"
       className="relative min-h-screen w-full flex flex-col items-center justify-center
-                 bg-cover bg-center bg-no-repeat overflow-hidden"
+                   bg-cover bg-center bg-no-repeat overflow-hidden"
       style={{ backgroundImage: `url('/images/cielo2.gif')` }}
     >
       {/* Contenedor principal para el grupo de Mingo, cuerda y cartel */}
@@ -111,22 +111,23 @@ const HeroSection = () => {
             // Usamos left-1/2 -translate-x-1/2 para centrarlo, y luego un translateX en style para el ajuste fino.
             className={`absolute z-30 cursor-pointer object-contain ${mingoAnimation}
                         w-[150px] h-[150px] top-[-70px] left-1/2 -translate-x-1/2
-                        md:w-[200px] md:h-[200px] md:top-[-z80px]
+                        md:w-[200px] md:h-[200px] md:top-[-80px]
                         lg:w-[250px] lg:h-[282px] lg:top-[-190px]`}
             style={{ transform: `translateX(-105px)` }} // Ajusta este valor (e.g., 15px) para mover Mingo a la derecha. Negativo para izquierda.
             onClick={handleMingoClick}
           />
           {/* Cuerda: Ajustado height para responsividad */}
           <div className="h-[80px] md:h-[100px] lg:h-[120px] w-[2px] bg-white origin-top animate-swing-rope z-20"></div>
-          {/* Cartel: Ajustado width y height para responsividad */}
+          {/* Cartel: Ajustado width y height para ser 35% más chicos */}
           <img
             ref={cartelImageRef}
             src="/images/cartel.png"
             alt="Cartel de Se Busca"
-            className={`w-[250px] h-[350px] object-contain animate-swing-poster origin-top z-10 ${cartelAnimation}
-                        md:w-[400px] md:h-[550px]
-                        lg:w-[500px] lg:h-[700px]`}
+            className={`w-[163px] h-[228px] object-contain animate-swing-poster origin-top z-10 ${cartelAnimation}
+                        md:w-[260px] md:h-[358px]
+                        lg:w-[325px] lg:h-[455px]`}
             style={{ marginTop: '-2px' }}
+            onClick={handleMingoClick} // El cartel también es clicable para el audio de Mingo
           />
         </div>
       </div>
