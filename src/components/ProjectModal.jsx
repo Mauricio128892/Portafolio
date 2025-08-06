@@ -1,3 +1,4 @@
+// src/components/ProjectModal.jsx
 import React from 'react';
 
 const ProjectModal = ({ project, onClose }) => {
