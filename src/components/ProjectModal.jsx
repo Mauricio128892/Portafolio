@@ -1,59 +1,89 @@
-// En tu archivo src/components/ProjectModal.jsx
+// src/components/ProjectModal.jsx
 import React from 'react';
 
 const ProjectModal = ({ project, onClose }) => {
-  return (
-    <div className="fixed inset-0 bg-black/75 flex justify-center items-center z-50 p-4">
-      {/* Fondo de pergamino o mapa envejecido para el modal - Usando fondo3.png */}
-      <div className="relative bg-amber-900 border-4 border-yellow-700 rounded-lg p-8 max-w-4xl w-full
-                      shadow-2xl transform scale-95 animate-scale-in opacity-0 fill-mode-forwards"
-           style={{ backgroundImage: "url('/images/fondo3.png')", backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
+  if (!project) return null; // No renderizar si no hay proyecto
 
-        {/* Botón de Cerrar (ancla/hueso cruzado) */}
+  return (
+    // Overlay oscuro para el modal
+    // fixed inset-0: Fija el modal en toda la pantalla.
+    // bg-black bg-opacity-75: Fondo negro semitransparente.
+    // flex items-center justify-center: Centra el contenido del modal.
+    // z-50: Asegura que esté por encima de otros elementos.
+    // p-4: Padding general.
+    // transition-opacity duration-300: Transición suave para el fade-in/out del overlay.
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
+      {/* Contenedor del modal */}
+      {/* bg-gray-800 p-8 rounded-lg shadow-lg: Estilos de la caja del modal. */}
+      {/* max-w-3xl w-full relative: Ancho máximo y responsividad. */}
+      {/* border-4 border-amber-500: Borde dorado. */}
+      {/* animate-modal-open: Aplica la animación de apertura. */}
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-3xl w-full relative border-4 border-amber-500 animate-modal-open">
+        {/* Botón de cerrar */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-white text-3xl font-bold p-2
-                     hover:text-red-500 transition-colors duration-300"
+          className="absolute top-4 right-4 text-white text-2xl font-bold hover:text-amber-500 transition-colors"
         >
-          &#x2715; {/* Unicode para una 'X' grande */}
+          &times;
         </button>
 
-        {/* Contenido del Modal */}
-        <h2 className="text-4xl font-bold text-amber-100 mb-6 border-b-4 border-yellow-700 pb-2 text-center">
+        {/* Título del proyecto */}
+        <h2 className="text-4xl font-pirata-one text-amber-500 text-center mb-6 border-b-2 border-amber-700 pb-2">
           {project.title}
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {project.images.map((image, index) => (
-            <div key={index} className="bg-gray-700 h-40 flex justify-center items-center text-gray-400 text-lg rounded-md shadow-inner">
-              {image}
+        {/* Descripción del proyecto */}
+        <p className="text-lg text-white mb-6 leading-relaxed text-center">
+          {project.description}
+        </p>
+
+        {/* Contenedor de imágenes del proyecto */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          {project.images && project.images.map((image, index) => (
+            <div key={index} className="w-full h-40 bg-gray-700 rounded-md flex items-center justify-center overflow-hidden">
+              <img
+                src={image} // La ruta de la imagen
+                alt={`${project.title} - Imagen ${index + 1}`}
+                className="w-full h-full object-cover" // Asegura que la imagen cubra el espacio
+                onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/200x150/555/eee?text=Imagen+no+cargada"; }} // Fallback si la imagen no carga
+              />
             </div>
           ))}
         </div>
 
-        <div className="text-center">
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-full text-lg
-                       transition-colors duration-300 shadow-md"
-          >
-            ¡Zarpar a este Proyecto!
-          </a>
-        </div>
+        {/* Botón para "Zarpar a este Proyecto!" */}
+        {project.link && (
+          <div className="text-center">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105"
+            >
+              ¡Zarpar a este Proyecto!
+            </a>
+          </div>
+        )}
       </div>
 
-      {/* Animación del modal */}
-      <style jsx>{`
-        @keyframes scale-in {
-          from { transform: scale(0.8); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
+      {/* Estilos CSS para la animación del modal */}
+      <style>
+        {`
+        @keyframes modal-open {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
-        .animate-scale-in {
-          animation: scale-in 0.3s ease-out forwards;
+        .animate-modal-open {
+          animation: modal-open 0.3s ease-out forwards;
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };

@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
-import ProjectModal from './ProjectModal';
-import ProjectChest from './ProjectChest';
+import ProjectModal from './ProjectModal'; // Asegúrate de que este componente exista
+import ProjectChest from './ProjectChest'; // Asegúrate de que este componente exista
 
 const Projects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   const projectsData = [
-    { id: 1, title: 'Proyecto 1', link: 'https://github.com/tu-usuario/proyecto1', images: ['foto 1', 'foto 2', 'foto 3', 'foto 4'] },
-    { id: 2, title: 'Proyecto 2', link: 'https://github.com/tu-usuario/proyecto2', images: ['foto 1', 'foto 2', 'foto 3', 'foto 4'] },
-    { id: 3, title: 'Proyecto 3', link: 'https://github.com/tu-usuario/proyecto3', images: ['foto 1', 'foto 2', 'foto 3', 'foto 4'] },
+    {
+      id: 1,
+      title: 'Página Web Profesional para Psicóloga',
+      description: 'Una página web profesional diseñada para mi madre, una psicóloga. Permite a los visitantes acceder a su información personal, conocer los tipos de terapias que ofrece y sus estudios. Además, los usuarios pueden agendar citas directamente o enviar mensajes a través de WhatsApp, facilitando la comunicación y el acceso a sus servicios.',
+      link: 'https://mama432.netlify.app/',
+      images: ['/images/foto1.png', '/images/foto2.png', '/images/foto3.png', '/images/foto4.png']
+    },
+    {
+      id: 2,
+      title: 'Página Web de Rutinas de Gimnasio',
+      description: 'Una plataforma web dedicada a rutinas de gimnasio que incluye un sistema de inicio y cierre de sesión con Google. Los usuarios pueden acceder a diversas rutinas personalizadas y gestionar su progreso de entrenamiento de manera sencilla y segura.',
+      link: 'https://examennnn.netlify.app/',
+      images: ['/images/foto11.png', '/images/foto12.png', '/images/foto13.png', '/images/foto14.png']
+    },
+    {
+      id: 3,
+      title: 'Sistema de Gestión de Recursos Humanos',
+      description: 'Una aplicación web de recursos humanos que permite el ingreso mediante una cuenta de Google. Facilita la adición de trabajadores, sus datos y roles, incluye una función de filtrado de búsqueda y una sección dedicada al perfil de usuario, con opción de cerrar sesión.',
+      link: 'https://rh2.netlify.app/', // Link corregido
+      images: ['/images/foto20.png', '/images/foto21.png', '/images/foto22.png', '/images/foto23.png'] // Imágenes corregidas
+    },
   ];
 
   const openModal = (project) => {
@@ -37,10 +55,7 @@ const Projects = () => {
               src="/images/2.gif" // Usando el GIF de Garp (llamado 2.gif)
               alt="Garp" // Alt text simple, ya no "showing his power"
               className="max-h-screen object-contain relative z-30" // Clases para posicionamiento y tamaño
-              // Eliminado: onClick={playSound}
-              // Eliminado: {isAudioPlaying ? 'animate-garp-epic-transformation' : ''}
             />
-            {/* Eliminado: <audio ref={audioRef} src="/audio/sound4.mp3" preload="auto"></audio> */}
           </div>
         </div>
 
@@ -51,7 +66,6 @@ const Projects = () => {
               key={project.id}
               project={project}
               onClick={() => openModal(project)}
-              // Eliminado: isAudioPlaying={isAudioPlaying}
             />
           ))}
         </div>
@@ -60,9 +74,6 @@ const Projects = () => {
       {isModalOpen && selectedProject && (
         <ProjectModal project={selectedProject} onClose={closeModal} />
       )}
-
-      {/* No es necesario el bloque <style jsx> si no hay animaciones ni estilos complejos */}
-      {/* Si tienes estilos globales en un archivo CSS aparte, asegúrate de que no interfieran aquí */}
     </section>
   );
 };

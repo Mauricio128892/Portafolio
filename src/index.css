@@ -1,12 +1,8 @@
-
 @import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
-
-
-
 
 
 html, body {
@@ -93,3 +89,5 @@ body {
 .animate-slide-in-right-fade-in {
   animation: slideInRightFadeIn 1s ease-out forwards;
 }
+
+/* Los estilos para gif-pulse-glow y animate-gif-pulse-glow han sido movidos a DevBlogs.jsx */
