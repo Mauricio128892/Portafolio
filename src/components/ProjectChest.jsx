@@ -5,10 +5,11 @@ const ProjectChest = ({ project, onClick }) => {
   return (
     <div
       // Se añadió 'w-full' para que el cuadro ocupe todo el ancho disponible en su columna.
-      className="bg-gray-800 p-6 rounded-lg shadow-lg text-center cursor-pointer transform transition-transform duration-200 hover:scale-105 border-4 border-transparent hover:border-amber-500 w-full"
+      className="bg-gray-800 p-6 rounded-lg shadow-lg text-center cursor-pointer transform transition-transform duration-200 hover:scale-105 border-4 border-transparent hover:border-primary-gold w-full"
       onClick={onClick}
     >
-      <h3 className="text-2xl font-metal-mania text-amber-500 mb-2">{project.title}</h3>
+      {/* Título del proyecto: Cambiado a font-pirata-one para mejor legibilidad */}
+      <h3 className="text-2xl font-pirata-one text-primary-gold mb-2">{project.title}</h3>
       <p className="text-lg leading-relaxed text-white mb-4">Haz clic para ver más detalles del proyecto.</p>
       {/* Puedes poner una imagen de un cofre aquí si quieres */}
       <img 

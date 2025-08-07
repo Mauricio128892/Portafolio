@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+// src/components/Projects.jsx
+import React, { useState, useEffect } from 'react';
 import ProjectModal from './ProjectModal'; // Asegúrate de que este componente exista
 import ProjectChest from './ProjectChest'; // Asegúrate de que este componente exista
 
-const Projects = () => {
+// Recibe onModalOpen y onModalClose como props
+const Projects = ({ onModalOpen, onModalClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -33,11 +35,17 @@ const Projects = () => {
   const openModal = (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
+    if (onModalOpen) {
+      onModalOpen(); // Llama a la función de App para indicar que el modal está abierto
+    }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedProject(null);
+    if (onModalClose) {
+      onModalClose(); // Llama a la función de App para indicar que el modal está cerrado
+    }
   };
 
   return (
@@ -61,6 +69,10 @@ const Projects = () => {
 
         {/* Right Side: Projects Container */}
         <div className="w-full lg:w-1/2 flex flex-col items-center space-y-8">
+          {/* Título de la sección Proyectos. Asegurado text-primary-gold */}
+          <h2 className="text-5xl md:text-6xl font-pirata-one text-primary-gold text-center mb-12">
+            Proyectos
+          </h2>
           {projectsData.map((project) => (
             <ProjectChest
               key={project.id}

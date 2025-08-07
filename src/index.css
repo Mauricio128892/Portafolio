@@ -1,10 +1,18 @@
-@import "tailwindcss";
+/* src/index.css */
 
+/* PRIMERO: Importa tus fuentes de Google Fonts aquí */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* ¡Aquí añadirías tu nueva fuente, por ejemplo Bebas Neue! */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 
+/* LUEGO: Las directivas de Tailwind CSS */
+@import "tailwindcss";
+
+/* DESPUÉS: Tus estilos CSS personalizados y reglas @keyframes */
 html, body {
   margin: 0;
   padding: 0;
@@ -16,16 +24,18 @@ html {
 }
 
 body {
-  font-family: 'adventure', sans-serif;
+  /* ¡Aquí es donde cambias la fuente principal de toda la página! */
+  /* Reemplaza 'adventure' con el nombre de tu nueva fuente, por ejemplo, 'Bebas Neue' */
+  font-family: 'Bebas Neue', sans-serif; /* Usando Bebas Neue como ejemplo */
   background-color: var(--tw-colors-sea-blue);
-  color: var(--tw-colors-cloud-white);
+  color: var(--tw-colors-cloud-white); /* Asegúrate de que 'cloud-white' esté definido en tailwind.config.js si lo usas */
 }
 
-
+/* Clase personalizada para el separador de madera */
 .bg-wood-separator {
-  background-image: url('/images/madera.png'); 
-  background-repeat: repeat-x; 
-  background-size: auto 100%; 
+  background-image: url('/images/madera.png'); /* Asegúrate de que esta ruta sea correcta */
+  background-repeat: repeat-x; /* Vuelve a repetir la imagen horizontalmente */
+  background-size: auto 100%; /* Ajusta la altura de la imagen al 100% del div, y el ancho automáticamente */
 }
 
 @keyframes floatUp {
@@ -89,5 +99,3 @@ body {
 .animate-slide-in-right-fade-in {
   animation: slideInRightFadeIn 1s ease-out forwards;
 }
-
-/* Los estilos para gif-pulse-glow y animate-gif-pulse-glow han sido movidos a DevBlogs.jsx */

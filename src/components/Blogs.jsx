@@ -12,7 +12,7 @@ const getGlowColor = (characterName) => {
     case 'sanji':
       return '#FFFF00'; // Amarillo
     case 'franky':
-      return '#0000FF'; // Azul
+      return '#87CEEB'; // Azul más claro (anteriormente #0000FF)
     case 'usopp':
       return '#FFA500'; // Naranja
     case 'robin':
@@ -113,7 +113,7 @@ const DevBlogCard = ({ blog }) => {
       </div>
 
       {/* Descripción y enlace al video */}
-      <h3 className="text-2xl font-metal-mania text-amber-500 mb-2">Blog {blog.id}</h3>
+      <h3 className="text-2xl font-metal-mania text-primary-gold mb-2">Blog {blog.id}</h3> {/* Cambiado a text-primary-gold */}
       <p className="text-lg leading-relaxed text-white mb-4">
         {blog.description}
         {blog.videoLink && (
@@ -172,7 +172,7 @@ const DevBlogs = () => {
       <div className="w-full h-8 bg-wood-separator absolute top-0 left-0"></div>
 
       <div className="max-w-6xl mx-auto"> {/* Aumentado el max-w para dar más espacio a 3 columnas */}
-        <h2 className="text-5xl md:text-6xl font-pirata-one text-amber-500 text-center mb-12">
+        <h2 className="text-5xl md:text-6xl font-pirata-one text-primary-gold text-center mb-12"> {/* Cambiado a text-primary-gold */}
           DevBlogs
         </h2>
 
