@@ -48,6 +48,9 @@ const Projects = ({ onModalOpen, onModalClose }) => {
     }
   };
 
+  // No es necesario un useEffect para limpiar la clase del body aquí,
+  // ya que App.jsx gestiona el estado centralmente.
+
   return (
     <section id="proyectos" className="relative bg-black min-h-screen flex flex-col justify-center items-center py-16">
       {/* Background of the section without opacity */}

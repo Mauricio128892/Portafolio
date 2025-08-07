@@ -18,7 +18,8 @@ const ProjectModal = ({ project, onClose }) => {
       {/* max-w-3xl w-full relative: Ancho máximo y responsividad. */}
       {/* border-4 border-amber-500: Borde dorado. */}
       {/* animate-modal-open: Aplica la animación de apertura. */}
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-3xl w-full relative border-4 border-amber-500 animate-modal-open">
+      {/* overflow-y-auto: Habilita el scroll vertical cuando el contenido es demasiado grande. */}
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-3xl w-full relative border-4 border-amber-500 animate-modal-open overflow-y-auto max-h-[95vh]">
         {/* Botón de cerrar */}
         <button
           onClick={onClose}
